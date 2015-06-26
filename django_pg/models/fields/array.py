@@ -203,3 +203,8 @@ class ArrayField(models.Field):
     def to_python(self, value):
         """Convert the database value to a Python list."""
         return CoerciveList(self.of.to_python, value)
+
+    def deconstruct(self):
+        name, path, args, kwargs = super(ArrayField, self).deconstruct()
+        kwargs['of'] = self.of
+        return name, path, args, kwargs
